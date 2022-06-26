@@ -1,13 +1,16 @@
 package com.example.foodrecipeapp.pojo
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-
+@Entity(tableName = "mealInformation")
 data class Meal(
     @SerializedName("dateModified")
     var dateModified: Any?,
     @SerializedName("idMeal")
-    var idMeal: String?,
+    @PrimaryKey
+    var idMeal: String,
     @SerializedName("strArea")
     var strArea: String?,
     @SerializedName("strCategory")

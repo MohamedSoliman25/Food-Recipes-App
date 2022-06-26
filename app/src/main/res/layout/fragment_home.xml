@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:fontFamily="@font/myfont"
-                    android:text="over popular items"
+                    android:text="Most popular items"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/myfont"
-                    android:text="category"
+                    android:text="Category"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -155,6 +155,8 @@
                         android:id="@+id/recyclerViewCategories"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingHorizontal="6dp"
+                        tools:listitem="@layout/category_item"
                         android:scrollbars="none" />
                 </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
