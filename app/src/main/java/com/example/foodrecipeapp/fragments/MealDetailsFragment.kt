@@ -1,45 +1,57 @@
-package com.example.foodrecipeapp
+package com.example.foodrecipeapp.fragments
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.foodrecipeapp.databinding.ActivityMealBinding
+import com.example.foodrecipeapp.R
+import com.example.foodrecipeapp.databinding.FragmentMealDetailsBinding
 import com.example.foodrecipeapp.db.MealDatabase
-import com.example.foodrecipeapp.fragments.HomeFragment
 import com.example.foodrecipeapp.pojo.Meal
-import com.example.foodrecipeapp.viewmodel.HomeViewModel
 import com.example.foodrecipeapp.viewmodel.MealViewModel
 import com.example.foodrecipeapp.viewmodel.MealViewModelFactory
 
-class MealActivity : AppCompatActivity() {
-    private val TAG = "MealActivity"
-    private lateinit var binding:ActivityMealBinding
+
+
+
+class MealDetailsFragment : Fragment() {
+
     private lateinit var mealId:String
     private lateinit var mealName:String
     private lateinit var mealThumb:String
     private lateinit var youtubeLink:String
-    private lateinit var mealMVVM:MealViewModel
+    private lateinit var mealMVVM: MealViewModel
     private var mealToSave: Meal? = null
+    private val args:MealDetailsFragmentArgs by navArgs()
+
+    private lateinit var binding:FragmentMealDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMealBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-//        mealMVVM = ViewModelProvider(this).get(MealViewModel::class.java)
-//        mealMVVM = ViewModelProvider(this)[MealViewModel::class.java]
 
-        val mealDatabase = MealDatabase.getInstance(this)
-        val viewModelFactory =MealViewModelFactory(mealDatabase)
+        val mealDatabase = MealDatabase.getInstance(requireActivity())
+        val viewModelFactory = MealViewModelFactory(mealDatabase)
         mealMVVM = ViewModelProvider(this,viewModelFactory)[MealViewModel::class.java]
 
+    }
 
-        getMealInformationFromIntent()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        binding = FragmentMealDetailsBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getMealInformationFromArgs()
         setInformationInViews()
 
         loadingCase()
@@ -51,12 +63,11 @@ class MealActivity : AppCompatActivity() {
         onFavoriteClick()
 
     }
-
     private fun onFavoriteClick() {
         binding.btnSave.setOnClickListener{
             mealToSave?.let {
                 mealMVVM.insertMeal(it)
-                Toast.makeText(this, "Meal Saved", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), "Meal Saved", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -69,7 +80,7 @@ class MealActivity : AppCompatActivity() {
     }
 
     private fun observerMealDetailsLiveData() {
-        mealMVVM.observeMealDetailsLiveData().observe(this,{meal->
+        mealMVVM.observeMealDetailsLiveData().observe(viewLifecycleOwner,{meal->
             onResponseCase()
             mealToSave = meal
             binding.tvCategoryInfo.text = "Category : ${meal.strCategory}"
@@ -80,21 +91,21 @@ class MealActivity : AppCompatActivity() {
     }
 
     private fun setInformationInViews() {
-        Glide.with(applicationContext)
-                .load(mealThumb)
-                .into(binding.imgMealDetail)
+        Glide.with(binding.root)
+            .load(mealThumb)
+            .into(binding.imgMealDetail)
         binding.collapsingToolbar.title = mealName
         binding.collapsingToolbar.setCollapsedTitleTextColor(resources.getColor(R.color.white))
         binding.collapsingToolbar.setExpandedTitleColor(resources.getColor(R.color.white))
     }
 
-    private fun getMealInformationFromIntent(){
-        val intent = intent
-        mealId = intent.getStringExtra(HomeFragment.MEAL_ID)!!
-        mealName = intent.getStringExtra(HomeFragment.MEAL_NAME)!!
-//        Log.d(TAG, "getMealInformationFromIntent: $mealId")
-        mealThumb = intent.getStringExtra(HomeFragment.MEAL_THUMB)!!
-//        Log.d(TAG, "observe2: ${mealId} , ${mealName} , ${mealThumb}")
+    private fun getMealInformationFromArgs(){
+        if(args!=null){
+            mealId = args.idMeal
+            mealName = args.strMeal
+            mealThumb = args.strMealThumb
+        }
+
 
     }
 
@@ -116,4 +127,6 @@ class MealActivity : AppCompatActivity() {
         binding.tvAreaInfo.visibility = View.VISIBLE
         binding.imgYoutube.visibility = View.VISIBLE
     }
+
+
 }

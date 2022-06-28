@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.foodrecipeapp.pojo.MealByCategoryList
-import com.example.foodrecipeapp.pojo.MealByCateogory
+import com.example.foodrecipeapp.pojo.MealByCategory
 import com.example.foodrecipeapp.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +15,7 @@ import retrofit2.Response
 class CategoryMealsViewModel : ViewModel(){
 
     private val TAG = "CategoryMealsViewModel"
-    private var mealsLiveData: MutableLiveData<List<MealByCateogory>> = MutableLiveData<List<MealByCateogory>>()
+    private var mealsLiveData: MutableLiveData<List<MealByCategory>> = MutableLiveData<List<MealByCategory>>()
 
 
 
@@ -36,7 +36,7 @@ class CategoryMealsViewModel : ViewModel(){
         })
     }
 
-    fun observeCategories(): LiveData<List<MealByCateogory>> {
+    fun observeCategories(): LiveData<List<MealByCategory>> {
         return mealsLiveData
     }
 

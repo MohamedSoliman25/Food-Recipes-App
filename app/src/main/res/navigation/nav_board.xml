@@ -9,15 +9,58 @@
         android:id="@+id/homeFragment"
         android:name="com.example.foodrecipeapp.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryMealsFragment"
+            app:destination="@id/categoryMealsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.foodrecipeapp.fragments.FavoritesFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/categoriesFragment"
-        android:name="com.example.foodrecipeapp.fragments.CategoriesFragment"
-        android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" />
+        android:id="@+id/searchFragment"
+        android:name="com.example.foodrecipeapp.fragments.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealDetailsFragment"
+        android:name="com.example.foodrecipeapp.fragments.MealDetailsFragment"
+        android:label="fragment_meal_details"
+        tools:layout="@layout/fragment_meal_details" >
+        <argument
+            android:name="idMeal"
+            app:argType="string" />
+        <argument
+            android:name="strMeal"
+            app:argType="string" />
+        <argument
+            android:name="strMealThumb"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryMealsFragment"
+        android:name="com.example.foodrecipeapp.fragments.CategoryMealsFragment"
+        android:label="fragment_category_meals"
+        tools:layout="@layout/fragment_category_meals" >
+        <argument
+            android:name="strCategory"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_categoryMealsFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
+
 </navigation>

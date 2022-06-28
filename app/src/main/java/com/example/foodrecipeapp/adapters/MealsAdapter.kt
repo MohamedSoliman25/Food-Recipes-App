@@ -1,7 +1,6 @@
 package com.example.foodrecipeapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -11,10 +10,10 @@ import com.example.foodrecipeapp.R
 import com.example.foodrecipeapp.databinding.MealItemBinding
 import com.example.foodrecipeapp.pojo.Meal
 
-class FavoriteMealsAdapter : RecyclerView.Adapter<FavoriteMealsAdapter.FavoriteViewHolder>() {
+class MealsAdapter : RecyclerView.Adapter<MealsAdapter.FavoriteViewHolder>() {
 //    private var favoriteMeals: List<Meal> = ArrayList()
-    private lateinit var onFavoriteClickListener: OnFavoriteClickListener
-    private lateinit var onFavoriteLongClickListener: OnFavoriteLongClickListener
+    private lateinit var onMealClickListener: OnMealClickListener
+    private lateinit var onMealLongClickListener: OnMealLongClickListener
 
     private val diffUtil = object:DiffUtil.ItemCallback<Meal>() {
         override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
@@ -32,12 +31,12 @@ class FavoriteMealsAdapter : RecyclerView.Adapter<FavoriteMealsAdapter.FavoriteV
 
 
 
-    fun setOnFavoriteMealClickListener(onFavoriteClickListener: OnFavoriteClickListener) {
-        this.onFavoriteClickListener = onFavoriteClickListener
+    fun setOnMealClickListener(onMealClickListener: OnMealClickListener) {
+        this.onMealClickListener = onMealClickListener
     }
 
-    fun setOnFavoriteLongClickListener(onFavoriteLongClickListener: OnFavoriteLongClickListener) {
-        this.onFavoriteLongClickListener = onFavoriteLongClickListener
+    fun setOnLongClickListener(onMealLongClickListener: OnMealLongClickListener) {
+        this.onMealLongClickListener = onMealLongClickListener
     }
 
    inner class FavoriteViewHolder(val binding: MealItemBinding) :
@@ -57,9 +56,9 @@ class FavoriteMealsAdapter : RecyclerView.Adapter<FavoriteMealsAdapter.FavoriteV
                     .into(imgMeal)
         }
 //
-//        holder.itemView.setOnClickListener {
-//            onFavoriteClickListener.onFavoriteClick(favoriteMeals[position])
-//        }
+        holder.itemView.setOnClickListener {
+            onMealClickListener.onMealClick(meal)
+        }
 //
 //        holder.itemView.setOnLongClickListener(object : View.OnLongClickListener {
 //            override fun onLongClick(p0: View?): Boolean {
@@ -73,11 +72,11 @@ class FavoriteMealsAdapter : RecyclerView.Adapter<FavoriteMealsAdapter.FavoriteV
         return differ.currentList.size
     }
 
-    interface OnFavoriteClickListener {
-        fun onFavoriteClick(meal: Meal)
+    interface OnMealClickListener {
+        fun onMealClick(meal: Meal)
     }
 
-    interface OnFavoriteLongClickListener {
-        fun onFavoriteLongCLick(meal: Meal)
+    interface OnMealLongClickListener {
+        fun onMealLongCLick(meal: Meal)
     }
 }

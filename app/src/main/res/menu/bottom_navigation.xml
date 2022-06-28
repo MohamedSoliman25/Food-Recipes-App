@@ -11,8 +11,8 @@
         android:id="@+id/favoritesFragment"
         />
 
-    <item android:title="Category"
-        android:icon="@drawable/ic_category"
-        android:id="@+id/categoriesFragment"
+    <item android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:id="@+id/searchFragment"
         />
 </menu>

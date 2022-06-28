@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.foodrecipeapp.databinding.MealItemBinding
-import com.example.foodrecipeapp.pojo.MealByCateogory
+import com.example.foodrecipeapp.pojo.MealByCategory
 
 class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryMealsViewHolder>() {
 
-    private var mealsList:List<MealByCateogory> = ArrayList()
+    private var mealsList:List<MealByCategory> = ArrayList()
     private lateinit var onItemClick: OnItemCategoryClicked
     private lateinit var onLongCategoryClick:OnLongCategoryClick
 
-    fun setMealList(mealsList: List<MealByCateogory>){
+    fun setMealList(mealsList: List<MealByCategory>){
         this.mealsList = mealsList
         notifyDataSetChanged()
     }
@@ -43,9 +43,9 @@ class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryM
                     .into(imgMeal)
         }
 
-//        holder.itemView.setOnClickListener {
-//            onItemClick.onClickListener(mealsList[position])
-//        }
+        holder.itemView.setOnClickListener {
+            onItemClick.onClickListener(mealsList[position])
+        }
 
 
     }
@@ -55,10 +55,10 @@ class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryM
     }
 
     interface OnItemCategoryClicked{
-        fun onClickListener(category:MealByCateogory)
+        fun onClickListener(category:MealByCategory)
     }
 
     interface OnLongCategoryClick{
-        fun onCategoryLongCLick(category:MealByCateogory)
+        fun onCategoryLongCLick(category:MealByCategory)
     }
 }

@@ -1,18 +1,18 @@
 package com.example.foodrecipeapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodrecipeapp.MainActivity
-import com.example.foodrecipeapp.R
-import com.example.foodrecipeapp.adapters.FavoriteMealsAdapter
+import com.example.foodrecipeapp.adapters.MealsAdapter
 import com.example.foodrecipeapp.databinding.FragmentFavoritesBinding
+import com.example.foodrecipeapp.pojo.Meal
 import com.example.foodrecipeapp.viewmodel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 class FavoritesFragment : Fragment() {
     private lateinit var binding:FragmentFavoritesBinding
     private lateinit var viewModel:HomeViewModel
-    private lateinit var favoritesAdapter:FavoriteMealsAdapter
+    private lateinit var favoritesAdapter:MealsAdapter
     private  val TAG = "FavoritesFragment"
 
 
@@ -42,6 +42,7 @@ class FavoritesFragment : Fragment() {
 
         prepareRecyclerView()
         observeFavorites()
+        onMealItemClick()
 
         val itemTouchHelper = object:ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or  ItemTouchHelper.DOWN,
@@ -68,7 +69,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun prepareRecyclerView() {
-        favoritesAdapter = FavoriteMealsAdapter()
+        favoritesAdapter = MealsAdapter()
         binding.favRecView.apply {
             layoutManager = GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
 //            setHasFixedSize(false)
@@ -86,5 +87,16 @@ class FavoritesFragment : Fragment() {
         })
     }
 
+    private fun onMealItemClick() {
+        favoritesAdapter.setOnMealClickListener(object :MealsAdapter.OnMealClickListener{
+            override fun onMealClick(meal: Meal) {
+                findNavController().navigate(
+                    FavoritesFragmentDirections.actionFavoritesFragmentToMealDetailsFragment(meal.idMeal,meal.strMeal!!,meal.strMealThumb!!)
+                )
+            }
+
+        }
+        )
+    }
 
 }

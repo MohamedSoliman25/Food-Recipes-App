@@ -20,8 +20,11 @@ class HomeViewModel(
     private  val TAG = "HomeViewModel"
 
     private var randomMealLiveData = MutableLiveData<Meal>()
-    private var popularItemsLiveData = MutableLiveData<List<MealByCateogory>>()
+    private var popularItemsLiveData = MutableLiveData<List<MealByCategory>>()
     private var categoriesLiveData = MutableLiveData<List<Category>>()
+    private var searchLiveData = MutableLiveData<List<Meal>>()
+
+
 
     init{
         getRandomMeal()
@@ -50,12 +53,11 @@ class HomeViewModel(
     }
 
 
-    fun getPopularItems(){
-        RetrofitInstance.api.getPopularItems("seafood").enqueue(object : Callback<MealByCategoryList> {
+    fun getPopularItems(category:String){
+        RetrofitInstance.api.getPopularItems(category).enqueue(object : Callback<MealByCategoryList> {
             override fun onResponse(call: Call<MealByCategoryList>, response: Response<MealByCategoryList>) {
                 if (response.body() != null) {
                     popularItemsLiveData.value = response.body()!!.meals
-
 //                    Log.d(TAG, "onResponse: ${response.body()!!.meals}")
                 } else {
                     return
@@ -68,7 +70,7 @@ class HomeViewModel(
 
         })
     }
-    fun observePopularItemsLiveData():LiveData<List<MealByCateogory>>{
+    fun observePopularItemsLiveData():LiveData<List<MealByCategory>>{
         return popularItemsLiveData
     }
 
@@ -108,5 +110,29 @@ class HomeViewModel(
         }
 
     }
+
+    fun searchMeal(searchQuery:String){
+        RetrofitInstance.api.searchMeal(searchQuery).enqueue(object : Callback<MealList> {
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                if (response.body() != null) {
+                    searchLiveData.postValue(response.body()!!.meals)
+                }
+                else {
+                    return
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
+                Log.d(TAG, "onFailure: ${t.message.toString()}")
+            }
+
+        })
+    }
+
+    fun observeSearchMealLiveData():LiveData<List<Meal>>{
+        return searchLiveData
+    }
+
+
 
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoryMealsActivity">
+    tools:context=".fragments.CategoryMealsFragment">
     <androidx.recyclerview.widget.RecyclerView
         android:layout_margin="8dp"
         android:id="@+id/meal_recyclerview"

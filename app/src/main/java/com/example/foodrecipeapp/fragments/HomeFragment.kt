@@ -1,6 +1,5 @@
 package com.example.foodrecipeapp.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,12 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.foodrecipeapp.CategoryMealsActivity
 import com.example.foodrecipeapp.MainActivity
-import com.example.foodrecipeapp.MealActivity
 import com.example.foodrecipeapp.adapters.CategoriesRecyclerAdapter
 import com.example.foodrecipeapp.adapters.MostPopularRecyclerAdapter
 import com.example.foodrecipeapp.databinding.FragmentHomeBinding
@@ -64,7 +62,7 @@ class HomeFragment : Fragment() {
         onRandomMealClick()
         // popular items
         popularItemsRecyclerView()
-        viewModel.getPopularItems()
+//        viewModel.getPopularItems()
         observePopularItemsLiveData()
         onPopularItemClick()
 
@@ -76,11 +74,15 @@ class HomeFragment : Fragment() {
 
     }
 
+
     private fun onCategoryItemClick() {
         categoriesAdapter.onItemClick ={category->
-            val intent  = Intent(activity,CategoryMealsActivity::class.java)
-            intent.putExtra(CATEGORY_NAME,category.strCategory)
-            startActivity(intent)
+//            val intent  = Intent(activity,CategoryMealsActivity::class.java)
+//            intent.putExtra(CATEGORY_NAME,category.strCategory)
+//            startActivity(intent)
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToCategoryMealsFragment(category.strCategory!!)
+            )
         }
     }
 
@@ -102,11 +104,15 @@ class HomeFragment : Fragment() {
 
     private fun onPopularItemClick() {
         popularItemsAdapter.onItemClick ={meal->
-            val intent  = Intent(activity,MealActivity::class.java)
-            intent.putExtra(MEAL_ID,meal.idMeal)
-            intent.putExtra(MEAL_NAME,meal.strMeal)
-            intent.putExtra(MEAL_THUMB,meal.strMealThumb)
-            startActivity(intent)
+//            val intent  = Intent(activity,MealActivity::class.java)
+//            intent.putExtra(MEAL_ID,meal.idMeal)
+//            intent.putExtra(MEAL_NAME,meal.strMeal)
+//            intent.putExtra(MEAL_THUMB,meal.strMealThumb)
+//            startActivity(intent)
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(meal.idMeal!!,meal.strMeal!!,meal.strMealThumb!!)
+            )
+
         }
     }
 
@@ -127,12 +133,10 @@ class HomeFragment : Fragment() {
 
     private fun onRandomMealClick(){
         binding.randomMeal.setOnClickListener{
-            val intent = Intent(activity,MealActivity::class.java)
-            intent.putExtra(MEAL_ID,randomMeal.idMeal)
-            intent.putExtra(MEAL_NAME,randomMeal.strMeal)
-            intent.putExtra(MEAL_THUMB,randomMeal.strMealThumb)
 
-            startActivity(intent)
+            findNavController().navigate(
+        HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(randomMeal.idMeal,randomMeal.strMeal!!,randomMeal.strMealThumb!!)
+            )
         }
     }
     private fun observerRandomMeal(){
@@ -142,6 +146,9 @@ class HomeFragment : Fragment() {
                     .into(binding.imgRandomMeal)
             this.randomMeal = meal
             Log.d(TAG, "observe: ${randomMeal.idMeal} , ${randomMeal.strMeal} , ${randomMeal.strMealThumb}")
+
+            // i put this method inside observerRandomMeal because i want to display most popular items according category of random meal
+            viewModel.getPopularItems(this.randomMeal.strCategory!!)
 
         })
     }
