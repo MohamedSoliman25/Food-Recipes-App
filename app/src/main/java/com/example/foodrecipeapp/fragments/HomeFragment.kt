@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,6 +17,7 @@ import com.example.foodrecipeapp.adapters.CategoriesRecyclerAdapter
 import com.example.foodrecipeapp.adapters.MostPopularRecyclerAdapter
 import com.example.foodrecipeapp.databinding.FragmentHomeBinding
 import com.example.foodrecipeapp.pojo.Meal
+import com.example.foodrecipeapp.util.Resource
 import com.example.foodrecipeapp.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
@@ -26,6 +28,7 @@ class HomeFragment : Fragment() {
     private  lateinit var randomMeal:Meal
     private lateinit var popularItemsAdapter:MostPopularRecyclerAdapter
     private lateinit var categoriesAdapter: CategoriesRecyclerAdapter
+   private  var isSuccess = false
 
 
 
@@ -94,11 +97,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeCategoriesLiveData() {
-        viewModel.observeCategoriesLiveData().observe(viewLifecycleOwner, { categories ->
-//            categories.forEach { category ->
+        viewModel.categoriesLiveData.observe(viewLifecycleOwner, { response ->
+
+            when(response){
+                is Resource.Success->{
+                    hideProgressBarForCategory()
+                    response.data?.let { categories->
+                        //            categories.forEach { category ->
 //                Log.d(TAG, "test: ${category.strCategory}")
 //            }
-            categoriesAdapter.setCategoryList(categories)
+                        categoriesAdapter.setCategoryList(categories)
+                    }
+                }
+                is Resource.Error->{
+                    hideProgressBarForCategory()
+                    response.message?.let {message->
+                        Toast.makeText(activity,"$message", Toast.LENGTH_LONG).show()
+                    }
+                }
+                is Resource.Loading -> {
+                    showProgressBarForCategory()
+                }
+            }
+
         })
     }
 
@@ -124,33 +145,103 @@ class HomeFragment : Fragment() {
     }
 
     private fun observePopularItemsLiveData() {
-        viewModel.observePopularItemsLiveData().observe(viewLifecycleOwner,{ mealList->
+        viewModel.popularItemsLiveData.observe(viewLifecycleOwner,{ response->
 
-            popularItemsAdapter.setMealList(mealList)
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBarForMostPopular()
+                    response.data?.let { mealList->
+
+                        popularItemsAdapter.setMealList(mealList)
+
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressBarForMostPopular()
+                    response.message?.let { message ->
+//                        Log.e(TAG, "An error occured: $message " )
+                        Toast.makeText(activity,"$message", Toast.LENGTH_LONG).show()
+
+                    }
+                }
+                is Resource.Loading-> {
+                    showProgressBarForMostPopular()
+                }
+            }
 
         })
     }
 
     private fun onRandomMealClick(){
-        binding.randomMeal.setOnClickListener{
+        binding.randomMeal.setOnClickListener {
 
-            findNavController().navigate(
-        HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(randomMeal.idMeal,randomMeal.strMeal!!,randomMeal.strMealThumb!!)
-            )
+            if (isSuccess) {
+                findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(randomMeal.idMeal, randomMeal.strMeal!!, randomMeal.strMealThumb!!)
+                )
+            }
         }
+
     }
     private fun observerRandomMeal(){
-        viewModel.observeRandomMealLiveData().observe(viewLifecycleOwner, Observer{ meal->
-            Glide.with(this@HomeFragment)
-                    .load(meal.strMealThumb)
-                    .into(binding.imgRandomMeal)
-            this.randomMeal = meal
-            Log.d(TAG, "observe: ${randomMeal.idMeal} , ${randomMeal.strMeal} , ${randomMeal.strMealThumb}")
+        viewModel.randomMealLiveData.observe(viewLifecycleOwner, Observer{response->
 
-            // i put this method inside observerRandomMeal because i want to display most popular items according category of random meal
-            viewModel.getPopularItems(this.randomMeal.strCategory!!)
+            when (response) {
+                is Resource.Success -> {
+                    isSuccess = true
+                    hideProgressBarForRandomMeal()
+                    response.data?.let { meal ->
+//                        newsAdapter.differ.submitList(newsResponse.articles?.toList())
+
+                        Glide.with(this@HomeFragment)
+                                .load(meal.strMealThumb)
+                                .into(binding.imgRandomMeal)
+                        this.randomMeal = meal
+                        Log.d(TAG, "observe: ${randomMeal.idMeal} , ${randomMeal.strMeal} , ${randomMeal.strMealThumb}")
+
+                        // i put this method inside observerRandomMeal because i want to display most popular items according category of random meal
+                        viewModel.getPopularItems(this.randomMeal.strCategory!!)
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressBarForRandomMeal()
+                    response.message?.let { message ->
+                        Log.e(TAG, "An error occured: $message " )
+                        Toast.makeText(activity,"$message", Toast.LENGTH_LONG).show()
+
+                    }
+                }
+                is Resource.Loading-> {
+                    showProgressBarForRandomMeal()
+                }
+            }
+
+
 
         })
     }
 
+    private fun hideProgressBarForRandomMeal() {
+        binding.pogressBarForRandomMeal.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBarForRandomMeal() {
+        binding.pogressBarForRandomMeal.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBarForMostPopular() {
+        binding.progressBarForMostPopular.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBarForMostPopular() {
+        binding.progressBarForMostPopular.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBarForCategory() {
+        binding.progressBarForCategory.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBarForCategory() {
+        binding.progressBarForCategory.visibility = View.VISIBLE
+    }
 }

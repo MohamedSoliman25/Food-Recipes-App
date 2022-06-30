@@ -150,13 +150,24 @@
         app:layout_anchorGravity="bottom|end"
         app:tint="@color/white" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
+<!--    <com.google.android.material.progressindicator.LinearProgressIndicator-->
+<!--        android:id="@+id/progressBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:indeterminate="true"-->
+<!--        app:layout_anchor="@id/appBar"-->
+<!--        app:layout_anchorGravity="bottom|end"-->
+<!--        android:visibility="gone"/>-->
+
+    <ProgressBar
+        android:id="@+id/progressBarForMealDetails"
+        style="?attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom|end"
-        android:visibility="gone"/>
+        android:theme="@style/CircularProgress"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+    />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
