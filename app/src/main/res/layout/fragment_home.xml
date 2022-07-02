@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment"
+    android:layout_marginHorizontal="16dp"
     android:id="@+id/root_home">
 
     <pl.droidsonroids.gif.GifImageView
@@ -35,28 +36,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/header"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="30dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent">-->
 
-                    <TextView
-                        android:id="@+id/tv_home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/myfont"
-                        android:text="Home"
-                        android:textColor="@color/accent"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_home"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/myfont"-->
+<!--                        android:text="Home"-->
+<!--                        android:textColor="@color/accent"-->
+<!--                        android:textSize="25sp"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
                 <TextView
                     android:id="@+id/tv_would_like_to_eat"
@@ -68,16 +69,16 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/header"
-                    app:layout_constraintTop_toBottomOf="@id/header" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/random_meal"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_marginStart="25dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="25dp"
                     android:elevation="2dp"
                     app:cardCornerRadius="10dp"
                     app:cardUseCompatPadding="true"
@@ -107,7 +108,7 @@
                     android:id="@+id/tv_over_pup_items"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/myfont"
                     android:text="Most popular items"
                     android:textColor="@color/black"
@@ -138,8 +139,7 @@
                     android:id="@+id/rec_view_meals_popular"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="10dp"
+
                     />
 
                 </RelativeLayout>
@@ -161,8 +161,6 @@
                     android:id="@+id/category_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
                     android:elevation="2dp"
                     app:cardCornerRadius="10dp"
                     app:cardPreventCornerOverlap="false"

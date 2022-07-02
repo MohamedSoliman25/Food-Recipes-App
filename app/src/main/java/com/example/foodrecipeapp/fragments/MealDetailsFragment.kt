@@ -15,7 +15,7 @@ import com.example.foodrecipeapp.R
 import com.example.foodrecipeapp.databinding.FragmentMealDetailsBinding
 import com.example.foodrecipeapp.pojo.Meal
 import com.example.foodrecipeapp.util.Resource
-import com.example.foodrecipeapp.viewmodel.MealViewModel
+import com.example.foodrecipeapp.viewmodel.MealDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,7 +28,7 @@ class MealDetailsFragment : Fragment() {
     private lateinit var youtubeLink:String
     private var isSuccess = false
 
-    private val mealMVVM: MealViewModel by viewModels()
+    private val mealDetailsMVVM: MealDetailsViewModel by viewModels()
 
     private var mealToSave: Meal? = null
     private val args:MealDetailsFragmentArgs by navArgs()
@@ -57,7 +57,7 @@ class MealDetailsFragment : Fragment() {
         setInformationInViews()
 
 //        loadingCase()
-        mealMVVM.getMealDetail(mealId)
+        mealDetailsMVVM.getMealDetail(mealId)
         observerMealDetailsLiveData()
 
         onYouTubeImageClick()
@@ -68,7 +68,7 @@ class MealDetailsFragment : Fragment() {
     private fun onFavoriteClick() {
         binding.btnSave.setOnClickListener{
             mealToSave?.let {
-                mealMVVM.insertMeal(it)
+                mealDetailsMVVM.insertMeal(it)
                 Toast.makeText(requireActivity(), "Meal Saved", Toast.LENGTH_LONG).show()
             }
         }
@@ -84,7 +84,7 @@ class MealDetailsFragment : Fragment() {
     }
 
     private fun observerMealDetailsLiveData() {
-        mealMVVM.mealDetailsLiveData.observe(viewLifecycleOwner,{response->
+        mealDetailsMVVM.mealDetailsLiveData.observe(viewLifecycleOwner,{ response->
 
             when (response) {
                 is Resource.Success -> {

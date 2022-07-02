@@ -25,7 +25,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class MealViewModel @Inject constructor(
+class MealDetailsViewModel @Inject constructor(
        val app:Application,
         private val mealRepository: MealRepository
         ):ViewModel() {
