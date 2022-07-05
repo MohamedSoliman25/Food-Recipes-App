@@ -19,7 +19,7 @@ It is an application to displays most of the recipes and gives you full informat
 ![Home](https://user-images.githubusercontent.com/74308533/177248362-962f79e1-325c-49e1-900c-9b4a111a3550.jpeg)
 
 ### Category Item
-![Category Item]](https://user-images.githubusercontent.com/74308533/177249280-b8012b6c-5777-4c0d-a8f1-1ad7bbb01722.jpeg)
+![Category Item](https://user-images.githubusercontent.com/74308533/177249280-b8012b6c-5777-4c0d-a8f1-1ad7bbb01722.jpeg)
 
 ### Meal Details
 ![Meal Details](https://user-images.githubusercontent.com/74308533/177248713-838b3dde-3604-45a1-8971-c1c218e3236f.jpeg)
