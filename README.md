@@ -1,5 +1,5 @@
 # Food-Recipes-App
-It is an application to displays most of the recipes and gives you full information about the selected meal including instructions of how to make that meal
+It is an application that displays most of the recipes and gives you full information about the selected meal including instructions of how to make that meal
 ####
 ## Tools
 
