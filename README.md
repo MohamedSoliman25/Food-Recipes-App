@@ -11,6 +11,8 @@ It is an application to displays most of the recipes and gives you full informat
 - Room Database
 - Repository Pattern
 - Navigation Component
+- Safe Args
+- View Binding
 - Glide
 
 ## Screenshots
